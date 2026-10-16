@@ -1,0 +1,992 @@
+```html
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahía Dorada Resort | Lujo en el Caribe</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0A192F',
+                            dark: '#050D1A',
+                            light: '#172A45'
+                        },
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA8C2C'
+                        },
+                        turquoise: {
+                            DEFAULT: '#00A896',
+                            light: '#02C39A',
+                            dark: '#028090'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(10, 25, 47, 0.5), rgba(10, 25, 47, 0.7)), url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA8C2C 100%);
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA8C2C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A192F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-gold selection:text-navy-dark">
+
+    <!-- Notificación / Mensaje Toast flotante -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-32 opacity-0 transition-all duration-300 bg-navy text-white px-6 py-4 rounded-xl shadow-2xl border border-gold flex items-center space-x-3">
+        <div id="toast-icon" class="text-gold text-xl"><i class="fa-solid fa-circle-check"></i></div>
+        <div>
+            <h4 id="toast-title" class="font-bold font-serif text-gold">Notificación</h4>
+            <p id="toast-msg" class="text-sm text-slate-300">Mensaje de prueba</p>
+        </div>
+    </div>
+
+    <!-- Barra de Navegación -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-navy/90 backdrop-blur-md border-b border-gold/20 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#inicio" class="flex items-center space-x-2 group">
+                <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center text-navy-dark font-bold font-serif text-xl shadow-md group-hover:scale-105 transition-transform">
+                    BD
+                </div>
+                <div>
+                    <span class="block font-serif text-xl md:text-2xl font-bold tracking-wider text-white">Bahía Dorada</span>
+                    <span class="block text-[10px] tracking-[0.25em] text-gold uppercase font-semibold">Resort & Spa • 5 Estrellas</span>
+                </div>
+            </a>
+
+            <!-- Enlaces de navegación (Escritorio) -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-200">
+                <a href="#inicio" class="hover:text-gold transition-colors">Inicio</a>
+                <a href="#habitaciones" class="hover:text-gold transition-colors">Habitaciones</a>
+                <a href="#reservas" class="hover:text-gold transition-colors">Reservas</a>
+                <a href="#servicios" class="hover:text-gold transition-colors">Servicios</a>
+                <a href="#restaurante" class="hover:text-gold transition-colors">Restaurante</a>
+                <a href="#galeria" class="hover:text-gold transition-colors">Galería</a>
+                <a href="#contacto" class="hover:text-gold transition-colors">Contacto</a>
+            </div>
+
+            <!-- Botón Reservar -->
+            <div class="hidden md:block">
+                <a href="#reservas" class="gold-gradient text-navy-dark font-bold px-6 py-2.5 rounded-full shadow-lg hover:shadow-gold/50 hover:scale-105 transition-all duration-300 text-sm tracking-wide">
+                    Reservar Ahora
+                </a>
+            </div>
+
+            <!-- Botón Menú Móvil -->
+            <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none hover:text-gold">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-dark border-b border-gold/20 px-6 pt-4 pb-6 space-y-3">
+            <a href="#inicio" class="block text-slate-200 hover:text-gold py-1">Inicio</a>
+            <a href="#habitaciones" class="block text-slate-200 hover:text-gold py-1">Habitaciones</a>
+            <a href="#reservas" class="block text-slate-200 hover:text-gold py-1">Reservas</a>
+            <a href="#servicios" class="block text-slate-200 hover:text-gold py-1">Servicios</a>
+            <a href="#restaurante" class="block text-slate-200 hover:text-gold py-1">Restaurante</a>
+            <a href="#galeria" class="block text-slate-200 hover:text-gold py-1">Galería</a>
+            <a href="#contacto" class="block text-slate-200 hover:text-gold py-1">Contacto</a>
+            <div class="pt-2">
+                <a href="#reservas" class="block text-center gold-gradient text-navy-dark font-bold py-3 rounded-full shadow-md">
+                    Reservar Ahora
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN INICIO (HERO) -->
+    <section id="inicio" class="hero-bg min-h-screen flex items-center justify-center text-center px-4 pt-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-transparent to-navy/40"></div>
+        <div class="relative z-10 max-w-4xl mx-auto space-y-6">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs sm:text-sm font-semibold tracking-widest uppercase animate-pulse">
+                ✦ Bienvenidos al Caribe Dominicano ✦
+            </span>
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-white leading-tight">
+                Tu paraíso <span class="gold-text">te espera</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-200 max-w-2xl mx-auto font-light leading-relaxed">
+                Lujo, tranquilidad y experiencias inolvidables en el Caribe. Disfrute de playas vírgenes de arena blanca, gastronomía de alta gama y un servicio impecable.
+            </p>
+            <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#reservas" class="gold-gradient text-navy-dark font-bold px-8 py-4 rounded-full shadow-2xl hover:scale-105 transition-transform duration-300 text-base tracking-wide flex items-center space-x-3">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Reservar Ahora</span>
+                </a>
+                <a href="#habitaciones" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 font-semibold px-8 py-4 rounded-full transition-all duration-300 text-base tracking-wide flex items-center space-x-3">
+                    <i class="fa-solid fa-eye text-gold"></i>
+                    <span>Ver Habitaciones</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Indicador de desplazamiento -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 animate-bounce hidden sm:block">
+            <a href="#habitaciones" class="text-sm flex flex-col items-center space-y-1 hover:text-gold transition-colors">
+                <span>Deslizar</span>
+                <i class="fa-solid fa-chevron-down text-xs"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN HABITACIONES -->
+    <section id="habitaciones" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span class="text-gold font-semibold text-sm tracking-widest uppercase">Alojamiento Exclusivo</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy">Habitaciones y Suites</h2>
+            <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+            <p class="text-slate-600 text-base sm:text-lg">
+                Espacios diseñados para el máximo confort, combinando la elegancia moderna con la impresionante belleza natural del Caribe.
+            </p>
+        </div>
+
+        <!-- Cuadrícula de Habitaciones -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- Habitación 1 -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:-translate-y-2 transition-all duration-300 group">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" alt="Habitación Deluxe" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute top-4 right-4 bg-navy/90 text-gold font-bold px-3 py-1 rounded-full text-sm shadow-md border border-gold/30">
+                        US$149 <span class="text-xs font-normal text-white">/ noche</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-turquoise text-white text-xs px-2.5 py-1 rounded-md font-semibold">
+                        Popular
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-navy mb-2">Habitación Deluxe</h3>
+                        <p class="text-slate-600 text-sm line-clamp-2">Amplia habitación con cama King, baño de mármol y balcón privado con vistas a los jardines tropicales.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-wifi text-turquoise mr-1"></i> Wi-Fi</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-snowflake text-turquoise mr-1"></i> A/C</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-tv text-turquoise mr-1"></i> Smart TV</span>
+                        </div>
+                    </div>
+                    <button onclick="abrirModalHabitacion('Deluxe', 'US$149', 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80', 'Amplia habitación de 45m² con cama King, baño de lujo equipado con ducha de lluvia de mármol, cafetera Nespresso, minibar de cortesía y un balcón amueblado con vistas relajantes a los exuberantes jardines tropicales del resort.')" class="w-full bg-navy hover:bg-navy-light text-white font-semibold py-3 rounded-xl transition-colors text-sm flex items-center justify-center space-x-2">
+                        <span>Ver habitación</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Habitación 2 -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:-translate-y-2 transition-all duration-300 group">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Suite Vista al Mar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute top-4 right-4 bg-navy/90 text-gold font-bold px-3 py-1 rounded-full text-sm shadow-md border border-gold/30">
+                        US$229 <span class="text-xs font-normal text-white">/ noche</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-gold text-navy-dark text-xs px-2.5 py-1 rounded-md font-bold">
+                        Vista al Mar
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-navy mb-2">Suite Vista al Mar</h3>
+                        <p class="text-slate-600 text-sm line-clamp-2">Impresionante vista panorámica al Mar Caribe desde su balcón privado con tumbonas.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-water text-turquoise mr-1"></i> Vista Mar</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-wine-glass text-turquoise mr-1"></i> Minibar</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-bath text-turquoise mr-1"></i> Tinas</span>
+                        </div>
+                    </div>
+                    <button onclick="abrirModalHabitacion('Suite Vista al Mar', 'US$229', 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80', 'Disfrute de amaneceres inolvidables en esta suite de 60m² orientada directamente al océano. Cuenta con cama King size, zona de estar independiente, bañera de hidromasaje en el baño y terraza privada con hamacas.')" class="w-full bg-navy hover:bg-navy-light text-white font-semibold py-3 rounded-xl transition-colors text-sm flex items-center justify-center space-x-2">
+                        <span>Ver habitación</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Habitación 3 -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:-translate-y-2 transition-all duration-300 group">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=80" alt="Suite Presidencial" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute top-4 right-4 bg-navy/90 text-gold font-bold px-3 py-1 rounded-full text-sm shadow-md border border-gold/30">
+                        US$349 <span class="text-xs font-normal text-white">/ noche</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-gradient-to-r from-gold to-yellow-600 text-navy-dark text-xs px-2.5 py-1 rounded-md font-bold">
+                        Exclusivo
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-navy mb-2">Suite Presidencial</h3>
+                        <p class="text-slate-600 text-sm line-clamp-2">Lujo supremo con sala de estar, comedor privado, jacuzzi exterior y servicio de mayordomo 24/7.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-user-tie text-turquoise mr-1"></i> Mayordomo</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-hot-tub-person text-turquoise mr-1"></i> Jacuzzi</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-utensils text-turquoise mr-1"></i> Comedor</span>
+                        </div>
+                    </div>
+                    <button onclick="abrirModalHabitacion('Suite Presidencial', 'US$349', 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=80', 'Nuestra máxima expresión de lujo. 120m² con sala independiente, comedor para 6 personas, jacuzzi privado en la terraza panorámica, vestidor gigante y servicio personalizado de mayordomo durante toda su estancia.')" class="w-full bg-navy hover:bg-navy-light text-white font-semibold py-3 rounded-xl transition-colors text-sm flex items-center justify-center space-x-2">
+                        <span>Ver habitación</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Habitación 4 -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:-translate-y-2 transition-all duration-300 group">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80" alt="Villa Privada" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute top-4 right-4 bg-navy/90 text-gold font-bold px-3 py-1 rounded-full text-sm shadow-md border border-gold/30">
+                        US$499 <span class="text-xs font-normal text-white">/ noche</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-navy text-gold text-xs px-2.5 py-1 rounded-md font-bold border border-gold/30">
+                        Villa VIP
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-navy mb-2">Villa Privada</h3>
+                        <p class="text-slate-600 text-sm line-clamp-2">Villa independiente frente a la playa con piscina privada infinity, jardín tropical y máxima privacidad.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-person-swimming text-turquoise mr-1"></i> Piscina Privada</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md"><i class="fa-solid fa-umbrella-beach text-turquoise mr-1"></i> Playa</span>
+                        </div>
+                    </div>
+                    <button onclick="abrirModalHabitacion('Villa Privada', 'US$499', 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80', 'Una residencia privada de 180m² situada a pocos pasos de la arena. Incluye piscina infinity de uso exclusivo, terraza solárium, 2 habitaciones en suite, cocina totalmente equipada y acceso prioritario a todos los servicios del resort.')" class="w-full bg-navy hover:bg-navy-light text-white font-semibold py-3 rounded-xl transition-colors text-sm flex items-center justify-center space-x-2">
+                        <span>Ver habitación</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN SISTEMA DE RESERVAS INTERACTIVO -->
+    <section id="reservas" class="py-24 bg-navy text-white relative">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-gold font-semibold text-sm tracking-widest uppercase">Planifique su Estancia</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">Sistema de Reservas</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+                <p class="text-slate-300 text-base sm:text-lg">
+                    Seleccione sus fechas, escoja su alojamiento ideal y calcule al instante el valor de su escapada de ensueño al Caribe.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 bg-navy-light/80 backdrop-blur-lg border border-gold/30 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                
+                <!-- Formulario -->
+                <form id="form-reserva" onsubmit="procesarReserva(event)" class="lg:col-span-7 space-y-6">
+                    <h3 class="font-serif text-2xl font-bold text-gold mb-6 flex items-center space-x-3">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span>Detalles de la Reserva</span>
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Fecha de Entrada</label>
+                            <input type="date" id="checkin" required class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Fecha de Salida</label>
+                            <input type="date" id="checkout" required class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Tipo de Habitación</label>
+                            <select id="tipo-habitacion" onchange="calcularPrecio()" class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors">
+                                <option value="149">Habitación Deluxe (US$149 / noche)</option>
+                                <option value="229">Suite Vista al Mar (US$229 / noche)</option>
+                                <option value="349">Suite Presidencial (US$349 / noche)</option>
+                                <option value="499">Villa Privada (US$499 / noche)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Número de Huéspedes</label>
+                            <select id="huespedes" class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors">
+                                <option value="1">1 Adulto</option>
+                                <option value="2" selected>2 Adultos</option>
+                                <option value="3">3 Adultos</option>
+                                <option value="4">4 Adultos o Familia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-700 pt-6 space-y-4">
+                        <h4 class="font-semibold text-gold text-lg">Información de Contacto</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Nombre Completo</label>
+                                <input type="text" id="nombre" required placeholder="Ej. Carlos Mendoza" class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Correo Electrónico</label>
+                                <input type="email" id="email" required placeholder="ejemplo@correo.com" class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Teléfono Móvil</label>
+                            <input type="tel" id="telefono" required placeholder="+1 (809) 000-0000" class="w-full bg-navy-dark border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors text-sm">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full gold-gradient text-navy-dark font-bold py-4 rounded-xl shadow-xl hover:scale-[1.02] transition-transform text-base uppercase tracking-wider">
+                        Confirmar Reserva
+                    </button>
+                </form>
+
+                <!-- Resumen en Vivo -->
+                <div class="lg:col-span-5 bg-navy-dark border border-gold/30 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                    <div class="space-y-6">
+                        <h3 class="font-serif text-xl font-bold text-gold flex items-center space-x-2 border-b border-slate-700 pb-4">
+                            <i class="fa-solid fa-receipt text-turquoise"></i>
+                            <span>Resumen de su Estancia</span>
+                        </h3>
+                        
+                        <div class="space-y-4 text-sm text-slate-300">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Alojamiento:</span>
+                                <span id="resumen-habitacion" class="font-semibold text-white">Habitación Deluxe</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Noches seleccionadas:</span>
+                                <span id="resumen-noches" class="font-semibold text-white">1 noche</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Tarifa por noche:</span>
+                                <span id="resumen-tarifa" class="font-semibold text-gold">US$ 149</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Impuestos y Resort Fee (18%):</span>
+                                <span id="resumen-impuestos" class="font-semibold text-white">US$ 26.82</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-700 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-white">Total Estimado:</span>
+                            <span id="resumen-total" class="font-serif text-3xl font-bold text-gold">US$ 175.82</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed bg-navy p-3 rounded-lg border border-slate-700">
+                            <i class="fa-solid fa-circle-info text-turquoise mr-1"></i> <strong>Aviso de Demostración:</strong> Este formulario es interactivo con fines demostrativos. Las reservas no se envían a un servidor real ni se procesan pagos.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN SERVICIOS -->
+    <section id="servicios" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span class="text-gold font-semibold text-sm tracking-widest uppercase">Experiencias 5 Estrellas</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy">Servicios e Instalaciones</h2>
+            <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+            <p class="text-slate-600 text-base sm:text-lg">
+                Todo lo que necesita para una estadía placentera, exclusiva y totalmente revitalizante.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Servicio 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+                <div class="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center text-2xl mb-6 shadow-md group-hover:gold-gradient group-hover:text-navy-dark transition-all">
+                    <i class="fa-solid fa-person-swimming"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-navy mb-3">Piscina Infinita</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Impresionante piscina de borde infinito que se funde visualmente con el horizonte turquesa del Mar Caribe, acompañada de bar acuático.
+                </p>
+            </div>
+
+            <!-- Servicio 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+                <div class="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center text-2xl mb-6 shadow-md group-hover:gold-gradient group-hover:text-navy-dark transition-all">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-navy mb-3">Playa Privada</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Kilómetros de arena blanca y fina de acceso exclusivo para huéspedes, con cómodas hamacas, sombrillas y servicio de atención en la playa.
+                </p>
+            </div>
+
+            <!-- Servicio 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+                <div class="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center text-2xl mb-6 shadow-md group-hover:gold-gradient group-hover:text-navy-dark transition-all">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-navy mb-3">Restaurante Gourmet</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Alta cocina internacional y caribeña elaborada por chefs de renombre mundial con ingredientes frescos del mar y de la región.
+                </p>
+            </div>
+
+            <!-- Servicio 4 -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+                <div class="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center text-2xl mb-6 shadow-md group-hover:gold-gradient group-hover:text-navy-dark transition-all">
+                    <i class="fa-solid fa-spa"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-navy mb-3">Spa y Gimnasio</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Santuario de bienestar con masajes relajantes, tratamientos holísticos con esencias tropicales y gimnasio equipado con tecnología de punta.
+                </p>
+            </div>
+
+            <!-- Servicio 5 -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+                <div class="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center text-2xl mb-6 shadow-md group-hover:gold-gradient group-hover:text-navy-dark transition-all">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-navy mb-3">Wi-Fi Gratuito</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Conexión de alta velocidad en todo el complejo, habitaciones y áreas de playa para que siempre esté comunicado.
+                </p>
+            </div>
+
+            <!-- Servicio 6 -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+                <div class="w-16 h-16 rounded-2xl bg-navy text-gold flex items-center justify-center text-2xl mb-6 shadow-md group-hover:gold-gradient group-hover:text-navy-dark transition-all">
+                    <i class="fa-solid fa-concierge-bell"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-navy mb-3">Servicio de Habitaciones</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Atención personalizada las 24 horas del día para satisfacer cualquier requerimiento en la comodidad de su suite o villa.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN RESTAURANTE -->
+    <section id="restaurante" class="py-24 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-gold font-semibold text-sm tracking-widest uppercase">Gastronomía Exquisita</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy">Restaurante "El Galeón"</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+                <p class="text-slate-600 text-base sm:text-lg">
+                    Sabores auténticos del Caribe con un toque gourmet contemporáneo frente al mar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Plato 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 flex flex-col">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80" alt="Pescado al Coco" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-navy text-gold px-3 py-1 rounded-full text-sm font-bold shadow">
+                            US$ 32
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between space-y-3">
+                        <div>
+                            <h3 class="font-serif text-xl font-bold text-navy mb-1">Pescado fresco al coco</h3>
+                            <p class="text-slate-600 text-sm">Pescado del día cocinado a la leña en suave salsa criolla de coco caribeño, acompañado de tostones y arroz con habichuelas.</p>
+                        </div>
+                        <span class="text-xs font-semibold text-turquoise uppercase tracking-wider">Especialidad de la Casa</span>
+                    </div>
+                </div>
+
+                <!-- Plato 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 flex flex-col">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80" alt="Mariscada Tropical" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-navy text-gold px-3 py-1 rounded-full text-sm font-bold shadow">
+                            US$ 45
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between space-y-3">
+                        <div>
+                            <h3 class="font-serif text-xl font-bold text-navy mb-1">Mariscada Bahía Dorada</h3>
+                            <p class="text-slate-600 text-sm">Langosta fresca, camarones jumbo y mejillones a la parrilla con mantequilla de ajo, hierbas finas y limón criollo.</p>
+                        </div>
+                        <span class="text-xs font-semibold text-turquoise uppercase tracking-wider">Recomendado del Chef</span>
+                    </div>
+                </div>
+
+                <!-- Plato 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 flex flex-col">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80" alt="Postre de Mango" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-navy text-gold px-3 py-1 rounded-full text-sm font-bold shadow">
+                            US$ 14
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between space-y-3">
+                        <div>
+                            <h3 class="font-serif text-xl font-bold text-navy mb-1">Volcán de Mango y Ron</h3>
+                            <p class="text-slate-600 text-sm">Bizcocho tibio de vainilla con centro líquido de mango caribeño macerado en ron añejo de la isla y helado artesanal.</p>
+                        </div>
+                        <span class="text-xs font-semibold text-turquoise uppercase tracking-wider">Postre Estrella</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN GALERÍA -->
+    <section id="galeria" class="py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span class="text-gold font-semibold text-sm tracking-widest uppercase">Postal Caribeña</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy">Galería de Imágenes</h2>
+            <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+            <p class="text-slate-600 text-base sm:text-lg">
+                Explore cada rincón de nuestro resort de ensueño.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="relative group h-72 rounded-2xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirLightbox('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80', 'Vista panorámica del resort y piscinas')">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" alt="Resort" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <p class="text-white font-serif font-bold text-lg">Vista panorámica del resort</p>
+                </div>
+            </div>
+
+            <div class="relative group h-72 rounded-2xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirLightbox('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80', 'Playa privada de arena blanca')">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Playa" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <p class="text-white font-serif font-bold text-lg">Playa de arena blanca</p>
+                </div>
+            </div>
+
+            <div class="relative group h-72 rounded-2xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirLightbox('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1200&q=80', 'Piscina infinity al atardecer')">
+                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="Piscina" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <p class="text-white font-serif font-bold text-lg">Piscina infinity al atardecer</p>
+                </div>
+            </div>
+
+            <div class="relative group h-72 rounded-2xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirLightbox('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80', 'Suite de lujo frente al mar')">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Habitación" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <p class="text-white font-serif font-bold text-lg">Suite de lujo frente al mar</p>
+                </div>
+            </div>
+
+            <div class="relative group h-72 rounded-2xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirLightbox('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80', 'Villas exclusivas')">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Villas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <p class="text-white font-serif font-bold text-lg">Villas exclusivas</p>
+                </div>
+            </div>
+
+            <div class="relative group h-72 rounded-2xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirLightbox('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80', 'Spa y bienestar tropical')">
+                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80" alt="Spa" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <p class="text-white font-serif font-bold text-lg">Spa y bienestar tropical</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN CONTACTO -->
+    <section id="contacto" class="py-24 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-gold font-semibold text-sm tracking-widest uppercase">Estamos para atenderle</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white">Contacto y Ubicación</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+                <p class="text-slate-300 text-base sm:text-lg">
+                    ¿Tiene alguna consulta especial o requiere asistencia para su evento? Contáctenos.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-slate-800/60 border border-slate-700 rounded-3xl p-8 sm:p-12 shadow-2xl">
+                
+                <!-- Info de contacto -->
+                <div class="space-y-8">
+                    <h3 class="font-serif text-2xl font-bold text-gold">Información del Resort</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center text-navy-dark text-xl flex-shrink-0 shadow">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Dirección</h4>
+                                <p class="text-slate-300 text-sm">Costa Caribe, República Dominicana</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center text-navy-dark text-xl flex-shrink-0 shadow">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Correo Electrónico</h4>
+                                <p class="text-slate-300 text-sm">reservas@bahiadorada.example</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center text-navy-dark text-xl flex-shrink-0 shadow">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Teléfono de Reservas</h4>
+                                <p class="text-slate-300 text-sm">+1 (809) 555-DORADA / +1 (809) 555-3672</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-700">
+                        <h4 class="font-bold text-white mb-3">Síganos en redes sociales</h4>
+                        <div class="flex space-x-4">
+                            <a href="#contacto" class="w-10 h-10 rounded-full bg-slate-700 hover:bg-gold hover:text-navy-dark transition-colors flex items-center justify-center text-white">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="#contacto" class="w-10 h-10 rounded-full bg-slate-700 hover:bg-gold hover:text-navy-dark transition-colors flex items-center justify-center text-white">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="#contacto" class="w-10 h-10 rounded-full bg-slate-700 hover:bg-gold hover:text-navy-dark transition-colors flex items-center justify-center text-white">
+                                <i class="fa-brands fa-twitter"></i>
+                            </a>
+                            <a href="#contacto" class="w-10 h-10 rounded-full bg-slate-700 hover:bg-gold hover:text-navy-dark transition-colors flex items-center justify-center text-white">
+                                <i class="fa-brands fa-tripadvisor"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de Contacto -->
+                <form id="form-contacto" onsubmit="enviarContacto(event)" class="space-y-6">
+                    <h3 class="font-serif text-2xl font-bold text-gold">Envíenos un Mensaje</h3>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Su Nombre</label>
+                        <input type="text" id="contacto-nombre" required placeholder="Ej. Sofía Valdés" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Correo Electrónico</label>
+                        <input type="email" id="contacto-email" required placeholder="sofia@ejemplo.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Mensaje o Consulta</label>
+                        <textarea id="contacto-mensaje" rows="4" required placeholder="Escriba aquí sus dudas sobre disponibilidad, eventos o servicios..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition-colors text-sm resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full gold-gradient text-navy-dark font-bold py-4 rounded-xl shadow-lg hover:scale-[1.02] transition-transform text-sm uppercase tracking-wider">
+                        Enviar Mensaje
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN GUÍA DE PUBLICACIÓN GITHUB PAGES -->
+    <section class="py-16 bg-navy border-t border-gold/20 text-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex items-center space-x-3 text-gold">
+                <i class="fa-brands fa-github text-3xl"></i>
+                <h3 class="font-serif text-2xl font-bold text-white">¿Cómo publicar esta web gratis en GitHub Pages?</h3>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed">
+                Siga estos sencillos pasos para subir su página web de <strong>Bahía Dorada Resort</strong> a Internet de forma totalmente gratuita:
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                <div class="bg-navy-dark p-6 rounded-2xl border border-slate-700 space-y-2">
+                    <span class="text-gold font-bold text-lg">Paso 1</span>
+                    <h4 class="font-bold text-white">Crear Repositorio</h4>
+                    <p class="text-slate-400 text-xs">Cree un nuevo repositorio en su cuenta de GitHub (ej. <code class="text-gold">bahia-dorada</code>) configurándolo como público.</p>
+                </div>
+                <div class="bg-navy-dark p-6 rounded-2xl border border-slate-700 space-y-2">
+                    <span class="text-gold font-bold text-lg">Paso 2</span>
+                    <h4 class="font-bold text-white">Subir Archivo</h4>
+                    <p class="text-slate-400 text-xs">Guarde este código en un archivo llamado exactamente <code class="text-gold">index.html</code> y súbalo al repositorio.</p>
+                </div>
+                <div class="bg-navy-dark p-6 rounded-2xl border border-slate-700 space-y-2">
+                    <span class="text-gold font-bold text-lg">Paso 3</span>
+                    <h4 class="font-bold text-white">Activar Pages</h4>
+                    <p class="text-slate-400 text-xs">Vaya a <em>Settings > Pages</em>, seleccione la rama <code class="text-gold">main</code> o <code class="text-gold">master</code> y haga clic en Save.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-navy-dark text-slate-400 py-12 border-t border-slate-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full gold-gradient flex items-center justify-center text-navy-dark font-bold font-serif text-sm">
+                    BD
+                </div>
+                <span class="font-serif text-lg font-bold text-white">Bahía Dorada Resort</span>
+            </div>
+            <p class="text-xs text-center md:text-left text-slate-500">
+                © 2026 Bahía Dorada Resort. Todos los derechos reservados. Inspirado en el lujo de la República Dominicana.
+            </p>
+            <div class="flex space-x-6 text-xs">
+                <a href="#inicio" class="hover:text-gold transition-colors">Privacidad</a>
+                <a href="#inicio" class="hover:text-gold transition-colors">Términos</a>
+                <a href="#contacto" class="hover:text-gold transition-colors">Soporte</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DETALLE DE HABITACIÓN -->
+    <div id="modal-habitacion" class="fixed inset-0 z-50 flex items-center justify-center bg-navy-dark/80 backdrop-blur-sm hidden px-4">
+        <div class="bg-navy border border-gold/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 text-white relative shadow-2xl animate-in fade-in zoom-in duration-200">
+            <button onclick="cerrarModalHabitacion()" class="absolute top-5 right-5 text-slate-400 hover:text-gold text-2xl transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content" class="space-y-6">
+                <!-- Contenido dinámico inyectado por JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX GALERÍA -->
+    <div id="lightbox" class="fixed inset-0 z-50 flex items-center justify-center bg-navy-dark/90 backdrop-blur-md hidden p-4" onclick="cerrarLightbox()">
+        <div class="relative max-w-4xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+            <button onclick="cerrarLightbox()" class="absolute -top-12 right-0 text-white hover:text-gold text-3xl transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="lightbox-img" src="" alt="Ampliada" class="max-h-[80vh] rounded-2xl shadow-2xl border border-gold/30 object-contain">
+            <p id="lightbox-caption" class="text-gold font-serif text-lg mt-4 text-center"></p>
+        </div>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT INTERACTIVO -->
+    <script>
+        // Menú móvil toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer clic en un enlace
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Configurar fechas iniciales predeterminadas en el sistema de reservas
+        window.addEventListener('DOMContentLoaded', () => {
+            const hoy = new Date();
+            const manana = new Date();
+            manana.setDate(hoy.getDate() + 3);
+
+            const formatYMD = (date) => {
+                const y = date.getFullYear();
+                const m = String(date.getMonth() + 1).padStart(2, '0');
+                const d = String(date.getDate()).padStart(2, '0');
+                return `${y}-${m}-${d}`;
+            };
+
+            const checkinInput = document.getElementById('checkin');
+            const checkoutInput = document.getElementById('checkout');
+
+            if (checkinInput && checkoutInput) {
+                checkinInput.value = formatYMD(hoy);
+                checkoutInput.value = formatYMD(manana);
+                
+                checkinInput.min = formatYMD(hoy);
+                checkoutInput.min = formatYMD(hoy);
+
+                checkinInput.addEventListener('change', calcularPrecio);
+                checkoutInput.addEventListener('change', calcularPrecio);
+            }
+
+            calcularPrecio();
+        });
+
+        // Función para calcular precios en tiempo real en el sistema de reservas
+        function calcularPrecio() {
+            const checkinVal = document.getElementById('checkin').value;
+            const checkoutVal = document.getElementById('checkout').value;
+            const tipoHabSelect = document.getElementById('tipo-habitacion');
+            
+            const precioNoche = parseFloat(tipoHabSelect.value);
+            const nombreHabitacionText = tipoHabSelect.options[tipoHabSelect.selectedIndex].text.split('(')[0].trim();
+
+            let noches = 1;
+            if (checkinVal && checkoutVal) {
+                const d1 = new Date(checkinVal);
+                const d2 = new Date(checkoutVal);
+                const diffTime = d2 - d1;
+                noches = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (noches < 1) noches = 1;
+            }
+
+            const subtotal = precioNoche * noches;
+            const impuestos = subtotal * 0.18;
+            const total = subtotal + impuestos;
+
+            // Actualizar elementos visuales del resumen
+            document.getElementById('resumen-habitacion').textContent = nombreHabitacionText;
+            document.getElementById('resumen-noches').textContent = noches + (noches === 1 ? ' noche' : ' noches');
+            document.getElementById('resumen-tarifa').textContent = 'US$ ' + precioNoche;
+            document.getElementById('resumen-impuestos').textContent = 'US$ ' + impuestos.toFixed(2);
+            document.getElementById('resumen-total').textContent = 'US$ ' + total.toFixed(2);
+        }
+
+        // Procesar formulario de reserva
+        function procesarReserva(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const totalText = document.getElementById('resumen-total').textContent;
+            const habitacionText = document.getElementById('resumen-habitacion').textContent;
+            const nochesText = document.getElementById('resumen-noches').textContent;
+
+            mostrarToast('¡Reserva Registrada!', `Gracias ${nombre}. Su reserva para ${habitacionText} (${nochesText}) por ${totalText} ha sido simulada con éxito. Revise su correo (${email}) para más detalles.`, 'success');
+            
+            // Opcional: limpiar form o scroll
+        }
+
+        // Procesar formulario de contacto
+        function enviarContacto(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('contacto-nombre').value;
+            mostrarToast('¡Mensaje Enviado!', `Estimado/a ${nombre}, su mensaje ha sido recibido por nuestro equipo de atención al cliente. Le responderemos a la brevedad.`, 'success');
+            document.getElementById('form-contacto').reset();
+        }
+
+        // Sistema de Toast dinámico
+        function mostrarToast(titulo, mensaje, tipo = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastTitle.textContent = titulo;
+            toastMsg.textContent = mensaje;
+
+            if (tipo === 'success') {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check text-gold"></i>';
+            } else {
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-amber-400"></i>';
+            }
+
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 6000);
+        }
+
+        // Modal de Habitaciones
+        function abrirModalHabitacion(nombre, precio, imagen, descripcion) {
+            const modal = document.getElementById('modal-habitacion');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="relative h-56 rounded-2xl overflow-hidden mb-4 border border-gold/30">
+                    <img src="${imagen}" alt="${nombre}" class="w-full h-full object-cover">
+                    <div class="absolute bottom-3 right-3 bg-navy/90 text-gold font-bold px-3 py-1 rounded-full text-sm border border-gold/30">
+                        ${precio} <span class="text-xs text-white font-normal">/ noche</span>
+                    </div>
+                </div>
+                <h3 class="font-serif text-3xl font-bold text-gold">${nombre}</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">${descripcion}</p>
+                <div class="pt-4 flex space-x-4">
+                    <button onclick="seleccionarYReservar('${nombre}', '${precio}')" class="flex-1 gold-gradient text-navy-dark font-bold py-3 rounded-xl shadow-lg hover:scale-105 transition-transform text-sm uppercase">
+                        Reservar esta habitación
+                    </button>
+                    <button onclick="cerrarModalHabitacion()" class="px-6 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors">
+                        Cerrar
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        function cerrarModalHabitacion() {
+            document.getElementById('modal-habitacion').classList.add('hidden');
+        }
+
+        function seleccionarYReservar(nombreHabitacion, precioStr) {
+            cerrarModalHabitacion();
+            
+            // Seleccionar en el select de reservas correspondiente
+            const select = document.getElementById('tipo-habitacion');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].text.includes(nombreHabitacion)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+            calcularPrecio();
+
+            // Desplazar hacia la sección de reservas
+            document.getElementById('reservas').scrollIntoView({ behavior: 'smooth' });
+            mostrarToast('Habitación Seleccionada', `Ha seleccionado la ${nombreHabitacion}. Complete los datos para confirmar su reserva.`, 'success');
+        }
+
+        // Lightbox Galería
+        function abrirLightbox(src, caption) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const cap = document.getElementById('lightbox-caption');
+
+            img.src = src;
+            cap.textContent = caption;
+            lightbox.classList.remove('hidden');
+        }
+
+        function cerrarLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
+```
