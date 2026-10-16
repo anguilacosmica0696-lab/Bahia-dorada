@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bahía Dorada Resort</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f8f6f0;color:#173b3b}
+header{background:#073b3b;color:white;padding:22px 7%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.logo{font-family:Georgia,serif;font-size:24px;color:#e7c98b}
+nav a{color:white;text-decoration:none;margin:8px;font-size:14px}
+.hero{min-height:440px;background:linear-gradient(#001c2655,#001c2688),url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=85') center/cover;display:flex;align-items:center;justify-content:center;text-align:center;color:white;padding:35px}
+.hero h1{font:clamp(38px,7vw,68px) Georgia,serif;margin:10px 0}
+.hero p{font-size:18px}
+.btn{display:inline-block;background:#d9b777;color:#173b3b;border:0;padding:13px 22px;border-radius:4px;font-weight:bold;cursor:pointer;text-decoration:none;margin:8px 3px}
+section{padding:48px 7%}
+h2{text-align:center;font:36px Georgia,serif}
+.sub{text-align:center;color:#647575;margin-bottom:30px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.card{background:white;border-radius:9px;overflow:hidden;box-shadow:0 5px 20px #163b3b15}
+.card img{width:100%;height:190px;object-fit:cover}
+.info{padding:20px}
+.price{font-size:24px;color:#9b7839;font-weight:bold}
+.info button{width:100%}
+#reserva{background:#e9eee8}
+form{max-width:650px;margin:auto;background:white;padding:24px;border-radius:9px}
+label{display:block;margin-top:14px;font-weight:bold}
+input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #ccd5ce;border-radius:4px;font-size:16px}
+footer{text-align:center;background:#073b3b;color:white;padding:28px}
+#resultado{font-size:18px;line-height:1.6;margin-top:15px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Bahía Dorada</div>
+<nav><a href="#habitaciones">Habitaciones</a><a href="#experiencias">Experiencias</a><a href="#reserva">Reservar</a></nav>
+</header>
+<div class="hero">
+<div>
+<p>BIENVENIDO A TU PARAÍSO</p>
+<h1>Bahía Dorada Resort</h1>
+<p>Descubre el lujo, la tranquilidad y la belleza del Caribe.</p>
+<a class="btn" href="#habitaciones">Explorar habitaciones</a>
+</div>
+</div>
+<section id="habitaciones">
+<h2>Nuestras habitaciones</h2>
+<p class="sub">Elige el espacio perfecto para tu próxima escapada.</p>
+<div class="cards">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" alt="Habitación tropical">
+<div class="info"><h3>Suite Tropical</h3><p>Confort elegante, cama amplia y un ambiente relajante.</p><p class="price">US$129 <small>/ noche</small></p><button class="btn" onclick="elegir('Suite Tropical',129)">Elegir habitación</button></div>
+</div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=80" alt="Suite con vista al mar">
+<div class="info"><h3>Suite Vista al Mar</h3><p>Despierta con una hermosa vista y disfruta de una estancia especial.</p><p class="price">US$179 <small>/ noche</small></p><button class="btn" onclick="elegir('Suite Vista al Mar',179)">Elegir habitación</button></div>
+</div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80" alt="Villa con piscina">
+<div class="info"><h3>Villa con piscina</h3><p>Privacidad, amplitud y una experiencia de lujo.</p><p class="price">US$249 <small>/ noche</small></p><button class="btn" onclick="elegir('Villa con piscina',249)">Elegir habitación</button></div>
+</div>
+</div>
+</section>
+<section id="experiencias">
+<h2>Vive la experiencia</h2>
+<p class="sub">Playa, piscina, gastronomía y momentos inolvidables.</p>
+<div class="cards">
+<div class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Playa caribeña"><div class="info"><h3>Playa paradisíaca</h3><p>Relájate junto a las aguas cristalinas del Caribe.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Piscina del resort"><div class="info"><h3>Piscina de ensueño</h3><p>Disfruta del sol en un ambiente de tranquilidad.</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80" alt="Restaurante elegante"><div class="info"><h3>Alta gastronomía</h3><p>Una experiencia culinaria para recordar.</p></div></div>
+</div>
+</section>
+<section id="reserva">
+<h2>Planifica tu estancia</h2>
+<p class="sub">Selecciona tus fechas para calcular un precio estimado.</p>
+<form onsubmit="calcular(event)">
+<label>Habitación</label>
+<select id="tipo" onchange="actualizarPrecio()">
+<option value="129">Suite Tropical — US$129/noche</option>
+<option value="179">Suite Vista al Mar — US$179/noche</option>
+<option value="249">Villa con piscina — US$249/noche</option>
+</select>
+<label>Fecha de llegada</label><input type="date" id="llegada" required>
+<label>Fecha de salida</label><input type="date" id="salida" required>
+<label>Huéspedes</label><select id="personas"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+<button class="btn" type="submit">Calcular estimado</button>
+<div id="resultado"></div>
+<p style="font-size:12px;color:#667">Precios ilustrativos. Este formulario calcula un estimado; no confirma una reserva ni procesa pagos.</p>
+</form>
+</section>
+<footer><div class="logo">Bahía Dorada Resort</div><p>Tu paraíso frente al mar.</p><p>© 2026 Bahía Dorada Resort</p></footer>
+<script>
+function elegir(nombre,precio){
+document.getElementById('tipo').value=precio;
+document.getElementById('reserva').scrollIntoView({behavior:'smooth'});
+document.getElementById('resultado').textContent='Has elegido: '+nombre+'. Selecciona tus fechas.';
+}
+function actualizarPrecio(){}
+function calcular(e){
+e.preventDefault();
+const a=new Date(document.getElementById('llegada').value+'T12:00:00');
+const b=new Date(document.getElementById('salida').value+'T12:00:00');
+const noches=Math.round((b-a)/86400000);
+if(noches<=0){document.getElementById('resultado').textContent='La salida debe ser posterior a la llegada.';return;}
+const precio=Number(document.getElementById('tipo').value);
+const total=noches*precio;
+document.getElementById('resultado').innerHTML='Estancia: '+noches+' noche(s)<br>Huéspedes: '+document.getElementById('personas').value+'<br>Total estimado: <strong>US$'+total.toLocaleString('en-US')+'</strong>';
+}
+</script>
+</body>
+</html>
